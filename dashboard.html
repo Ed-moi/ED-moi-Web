@@ -4,13 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ED Moi</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header>
-      <div id="logo">
-        <a href="/dashboard.html"><img src="/img/logo.png" alt="logo" /></a>
-      </div>
+      <div id="logo"><img src="/img/logo.png" alt="logo" /></div>
       <div id="titre">
         <h1>ED Moi</h1>
       </div>
@@ -20,32 +18,50 @@
         /></a>
       </div>
     </header>
-    <div>
-      <div id="en-tete">
-        <h2>suivre une formation</h2>
+    <container id="semaine">
+      <div class="calendar">
+        <div class="day" data-day="1">
+          <div class="circle"></div>
+          <p>L</p>
+        </div>
+        <div class="day" data-day="2">
+          <div class="circle"></div>
+          <p>M</p>
+        </div>
+        <div class="day" data-day="3">
+          <div class="circle"></div>
+          <p>M</p>
+        </div>
+        <div class="day" data-day="4">
+          <div class="circle"></div>
+          <p>J</p>
+        </div>
+        <div class="day" data-day="5">
+          <div class="circle"></div>
+          <p>V</p>
+        </div>
+        <div class="day" data-day="6">
+          <div class="circle"></div>
+          <p>S</p>
+        </div>
+        <div class="day" data-day="7">
+          <div class="circle"></div>
+          <p>D</p>
+        </div>
       </div>
-      <div id="button">
-        <a href="/formations/cuisine.html">
-          <button class="button_formation1">CUISINE</button></a
-        >
-        <button class="button_formation2">MECANIQUE</button>
-        <button class="button_formation1">FINANCES</button>
-        <button class="button_formation2">ADMINISTRATIF</button>
-        <button class="button_formation2">INFORMATIQUE</button>
-        <button class="button_formation1">RECHERCHE D'EMPLOI</button>
-        <button class="button_formation2">ANIMAUX DE COMPAGNIE</button>
-        <button class="button_formation1">QUOTIDIEN</button>
-      </div>
-    </div>
-
+    </container>
+    <container id="buttons">
+      <a href="/page/suivre_une_formation.html">
+        <button id="button1">Suivre une formation</button></a
+      >
+      <a href="/page/creer_une_formation.html">
+        <button id="button2">Créer une formation</button></a
+      >
+    </container>
     <footer id="progression-footer">
       <div id="titre-footer">
         <h2>Votre progression</h2>
-        <img
-          src="/img/fleche-gauche-modified.png"
-          alt=""
-          id="fleche-formation"
-        />
+        <img src="/img/fleche-gauche-modified.png" alt="" id="fleche-formation">
       </div>
       <div class="progress-section">
         <div class="category">
@@ -80,6 +96,7 @@
         </div>
       </div>
     </footer>
-    <script src="/script.js"></script>
+
+    <script src="script.js"></script>
   </body>
 </html>

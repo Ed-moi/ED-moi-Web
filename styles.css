@@ -16,14 +16,25 @@
   --edmoi-gold: #ffba00;
   --edmoi-wood: #b46617;
 
-  /* Neutres modernes */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f7f7f7;
+  /* Neutres modernes - Thème clair */
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #e8e8e8;
   --bg-elevated: #ffffff;
-  --text-primary: #3c3c3c;
-  --text-secondary: #777777;
-  --border-light: #e5e5e5;
-  --shadow: rgba(0, 0, 0, 0.1);
+  --text-primary: #2c2c2c;
+  --text-secondary: #666666;
+  --border-light: #d0d0d0;
+  --shadow: rgba(0, 0, 0, 0.12);
+}
+
+/* Thème sombre */
+[data-theme="dark"] {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #242424;
+  --bg-elevated: #2d2d2d;
+  --text-primary: #e8e8e8;
+  --text-secondary: #a0a0a0;
+  --border-light: #3d3d3d;
+  --shadow: rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -35,10 +46,41 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
     "Helvetica", "Arial", sans-serif;
-  background: linear-gradient(180deg, #f7f7f7 0%, #ffffff 100%);
+  background: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ==================== BOUTON THÈME ==================== */
+#theme-toggle {
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 2px solid var(--border-light);
+  box-shadow: 0 4px 12px var(--shadow);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  transition: all 0.3s ease;
+  z-index: 1001;
+}
+
+#theme-toggle:hover {
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: 0 6px 20px var(--shadow);
+  border-color: var(--primary-green);
+}
+
+#theme-toggle:active {
+  transform: scale(0.95);
 }
 
 /* ==================== HEADER ==================== */
@@ -53,6 +95,7 @@ header {
   top: 0;
   z-index: 1000;
   border-bottom: 3px solid var(--primary-green);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 header div#logo {
@@ -126,6 +169,7 @@ container#semaine {
   border-radius: 20px;
   box-shadow: 0 4px 20px var(--shadow);
   border: 2px solid var(--border-light);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .day {
@@ -331,7 +375,15 @@ img#fleche-formation {
   height: 32px;
   cursor: pointer;
   transition: transform 0.3s ease;
+}
+
+[data-theme="light"] img#fleche-formation {
   filter: invert(48%) sepia(13%) saturate(1500%) hue-rotate(86deg)
+    brightness(95%) contrast(90%);
+}
+
+[data-theme="dark"] img#fleche-formation {
+  filter: invert(88%) sepia(13%) saturate(200%) hue-rotate(86deg)
     brightness(95%) contrast(90%);
 }
 
@@ -371,7 +423,7 @@ img#fleche-formation:hover {
 }
 
 .progress-bar {
-  background: #e5e5e5;
+  background: var(--border-light);
   width: 100%;
   height: 16px;
   border-radius: 12px;
@@ -432,6 +484,7 @@ container#profile {
   padding: 32px;
   box-shadow: 0 8px 32px var(--shadow);
   border: 2px solid var(--border-light);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 #profile-header {
@@ -659,6 +712,15 @@ button.button_formation2:active {
 }
 
 /* ==================== CREATE FORMATION ==================== */
+div#creer_une_formation {
+  margin-top: 40px;
+  text-align: center;
+}
+
+div#creer_une_formation h2 {
+  margin-bottom: 30px;
+}
+
 div#form {
   display: flex;
   justify-content: center;
@@ -673,6 +735,7 @@ form {
   border-radius: 24px;
   box-shadow: 0 8px 32px var(--shadow);
   border: 2px solid var(--border-light);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 form label {
@@ -696,13 +759,14 @@ form textarea {
   font-family: inherit;
   transition: all 0.2s ease;
   background: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 form input[type="text"]:focus,
 form textarea:focus {
   outline: none;
   border-color: var(--primary-green);
-  background: white;
+  background: var(--bg-elevated);
   box-shadow: 0 0 0 4px rgba(88, 204, 2, 0.1);
 }
 
@@ -720,11 +784,12 @@ input#upload {
   font-weight: 700;
   transition: all 0.2s ease;
   margin: 10px 0 20px 0;
+  color: var(--text-primary);
 }
 
 input#upload:hover {
   border-color: var(--primary-green);
-  background: white;
+  background: var(--bg-elevated);
 }
 
 form button {
@@ -772,7 +837,14 @@ img#fleche-gauche {
   height: 40px;
   cursor: pointer;
   transition: transform 0.2s ease;
+}
+
+[data-theme="light"] img#fleche-gauche {
   filter: invert(48%) sepia(13%) saturate(1500%) hue-rotate(86deg);
+}
+
+[data-theme="dark"] img#fleche-gauche {
+  filter: invert(88%) sepia(13%) saturate(200%) hue-rotate(86deg);
 }
 
 img#fleche-gauche:hover {
@@ -838,6 +910,14 @@ img#fleche-gauche:hover {
 
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 768px) {
+  #theme-toggle {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    top: 80px;
+    right: 15px;
+  }
+
   header {
     padding: 12px 16px;
   }
@@ -881,6 +961,12 @@ img#fleche-gauche:hover {
 }
 
 @media (max-width: 480px) {
+  #theme-toggle {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
   header div#titre h1 {
     font-size: 20px;
   }
