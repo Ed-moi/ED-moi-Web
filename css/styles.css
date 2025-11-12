@@ -1,16 +1,16 @@
 :root {
-  /* Palette inspirée de Duolingo avec votre touche */
-  --primary-green: #58cc02;
-  --primary-green-dark: #46a302;
-  --primary-green-light: #89e219;
-  --secondary-blue: #1cb0f6;
-  --secondary-orange: #ff9600;
-  --secondary-pink: #ff4b8b;
-  --secondary-purple: #ce82ff;
-  --warning-red: #ff4b4b;
+  --primary-green: #3a6b40;
+  --primary-green-dark: #274f2e;
+  --primary-green-light: #6c9673;
+
+  --secondary-blue: #2a6f8f;
+  --secondary-orange: #b46617;
+  --secondary-pink: #c2556f;
+  --secondary-purple: #8255a1;
+
+  --warning-red: #a83232;
   --success-green: #58cc02;
 
-  /* Votre identité */
   --edmoi-forest: #0c3b2e;
   --edmoi-sage: #6c9673;
   --edmoi-gold: #ffba00;
