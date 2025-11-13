@@ -1,0 +1,72 @@
+/* ==================== THEMES ==================== */
+
+/* 🎨 Variables de couleur globales */
+:root {
+  --primary-green: #3a6b40;
+  --primary-green-dark: #274f2e;
+  --primary-green-light: #6c9673;
+
+  --secondary-blue: #2a6f8f;
+  --secondary-orange: #b46617;
+  --secondary-pink: #c2556f;
+  --secondary-purple: #8255a1;
+
+  --warning-red: #a83232;
+  --success-green: #58cc02;
+
+  --edmoi-forest: #0c3b2e;
+  --edmoi-sage: #6c9673;
+  --edmoi-gold: #ffba00;
+  --edmoi-wood: #b46617;
+
+  /* Thème clair (défaut) */
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #e8e8e8;
+  --bg-elevated: #ffffff;
+  --text-primary: #2c2c2c;
+  --text-secondary: #666666;
+  --border-light: #d0d0d0;
+  --shadow: rgba(0, 0, 0, 0.12);
+}
+
+/* 🌑 Thème sombre */
+[data-theme="dark"] {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #242424;
+  --bg-elevated: #2d2d2d;
+  --text-primary: #e8e8e8;
+  --text-secondary: #a0a0a0;
+  --border-light: #3d3d3d;
+  --shadow: rgba(0, 0, 0, 0.4);
+}
+
+/* ==================== ADAPTATIONS VISUELLES ==================== */
+
+/* Logo home (profil) */
+[data-theme="light"] header div#pp img[alt="logo home"] {
+  filter: invert(100%);
+}
+
+[data-theme="dark"] header div#pp img[alt="logo home"] {
+  filter: invert(0%);
+}
+
+/* Flèche retour (page cuisine) */
+[data-theme="light"] img#fleche-gauche {
+  filter: invert(100%);
+}
+
+[data-theme="dark"] img#fleche-gauche {
+  filter: invert(0%);
+}
+
+/* Flèche progression (footer) */
+[data-theme="light"] img#fleche-formation {
+  filter: invert(48%) sepia(13%) saturate(1500%) hue-rotate(86deg)
+    brightness(95%) contrast(90%);
+}
+
+[data-theme="dark"] img#fleche-formation {
+  filter: invert(88%) sepia(13%) saturate(200%) hue-rotate(86deg)
+    brightness(95%) contrast(90%);
+}
