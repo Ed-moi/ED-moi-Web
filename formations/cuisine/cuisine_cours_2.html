@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cuisine Créative - ED Moi</title>
+    <style>
+      :root {
+        --primary-green: #3a6b40;
+        --primary-green-dark: #274f2e;
+        --primary-green-light: #6c9673;
+        --success-green: #58cc02;
+        --warning-red: #a83232;
+        --intermediate-orange: #ff9800;
+        --intermediate-orange-light: #ffe0b2;
+        --bg-primary: #f5f5f5;
+        --bg-secondary: #e8e8e8;
+        --bg-elevated: #ffffff;
+        --text-primary: #2c2c2c;
+        --text-secondary: #666666;
+        --border-light: #d0d0d0;
+        --shadow: rgba(0, 0, 0, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+          sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* Header */
+      .cours-header {
+        background: var(--bg-elevated);
+        padding: 30px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 16px var(--shadow);
+      }
+
+      .cours-header h1 {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 15px;
+      }
+
+      .niveau-badge {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 14px;
+        background: linear-gradient(
+          135deg,
+          var(--intermediate-orange-light) 0%,
+          #ffcc80 100%
+        );
+        color: #e65100;
+        border: 2px solid var(--intermediate-orange);
+        margin-bottom: 15px;
+      }
+
+      .progress-bar-container {
+        background: var(--bg-secondary);
+        height: 12px;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 15px;
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--intermediate-orange) 0%,
+          #fb8c00 100%
+        );
+        transition: width 0.5s ease;
+        border-radius: 10px;
+      }
+
+      .progress-text {
+        text-align: center;
+        margin-top: 8px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+
+      /* Question Card */
+      .question-card {
+        background: var(--bg-elevated);
+        padding: 30px;
+        border-radius: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 16px var(--shadow);
+        border: 2px solid var(--border-light);
+        display: none;
+      }
+
+      .question-card.active {
+        display: block;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .question-number {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        margin-bottom: 15px;
+      }
+
+      .question-text {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 25px;
+        line-height: 1.4;
+      }
+
+      .question-type {
+        display: inline-block;
+        padding: 6px 12px;
+        background: var(--intermediate-orange);
+        color: white;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      /* Options */
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .option {
+        background: var(--bg-secondary);
+        padding: 18px 20px;
+        border-radius: 12px;
+        border: 3px solid var(--border-light);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 600;
+        font-size: 16px;
+        position: relative;
+      }
+
+      .option:hover {
+        border-color: var(--intermediate-orange);
+        transform: translateX(5px);
+      }
+
+      .option.selected {
+        border-color: var(--intermediate-orange);
+        background: var(--intermediate-orange);
+        color: white;
+      }
+
+      .option.correct {
+        border-color: var(--success-green);
+        background: var(--success-green);
+        color: white;
+      }
+
+      .option.incorrect {
+        border-color: var(--warning-red);
+        background: var(--warning-red);
+        color: white;
+      }
+
+      .option.disabled {
+        pointer-events: none;
+        opacity: 0.7;
+      }
+
+      /* Drag & Drop */
+      .drag-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .drag-item {
+        background: var(--bg-secondary);
+        padding: 18px 20px;
+        border-radius: 12px;
+        border: 3px solid var(--border-light);
+        cursor: move;
+        font-weight: 600;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .drag-item:hover {
+        border-color: var(--intermediate-orange);
+      }
+
+      .drag-number {
+        background: var(--intermediate-orange);
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+      }
+
+      /* Buttons */
+      .buttons-container {
+        display: flex;
+        gap: 15px;
+        margin-top: 25px;
+      }
+
+      .btn {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .btn-validate {
+        background: linear-gradient(
+          180deg,
+          var(--intermediate-orange) 0%,
+          #f57c00 100%
+        );
+        color: white;
+        flex: 1;
+        box-shadow: 0 4px 0 #f57c00;
+      }
+
+      .btn-validate:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 0 #f57c00;
+      }
+
+      .btn-validate:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 #f57c00;
+      }
+
+      .btn-validate:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .btn-next {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 2px solid var(--border-light);
+        display: none;
+      }
+
+      .btn-next.show {
+        display: block;
+      }
+
+      .btn-next:hover {
+        background: var(--intermediate-orange);
+        color: white;
+        border-color: var(--intermediate-orange);
+      }
+
+      /* Feedback */
+      .feedback {
+        margin-top: 20px;
+        padding: 15px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        display: none;
+      }
+
+      .feedback.show {
+        display: block;
+        animation: slideIn 0.3s ease;
+      }
+
+      .feedback.correct {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 2px solid var(--success-green);
+      }
+
+      .feedback.incorrect {
+        background: #ffebee;
+        color: #c62828;
+        border: 2px solid var(--warning-red);
+      }
+
+      /* Score final */
+      .final-score {
+        background: var(--bg-elevated);
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 8px 32px var(--shadow);
+        display: none;
+      }
+
+      .final-score.show {
+        display: block;
+        animation: slideIn 0.5s ease;
+      }
+
+      .final-score h2 {
+        font-size: 32px;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: var(--text-primary);
+      }
+
+      .score-circle {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--intermediate-orange) 0%,
+          #fb8c00 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 30px auto;
+        box-shadow: 0 8px 24px rgba(255, 152, 0, 0.3);
+      }
+
+      .score-number {
+        font-size: 48px;
+        font-weight: 800;
+        color: white;
+      }
+
+      .score-message {
+        font-size: 18px;
+        color: var(--text-secondary);
+        margin-bottom: 30px;
+      }
+
+      .btn-restart {
+        background: linear-gradient(
+          180deg,
+          var(--intermediate-orange) 0%,
+          #f57c00 100%
+        );
+        color: white;
+        padding: 15px 40px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        text-transform: uppercase;
+        box-shadow: 0 4px 0 #f57c00;
+      }
+
+      .btn-restart:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 0 #f57c00;
+      }
+      .btn-retour {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 2px solid var(--border-light);
+        padding: 15px 40px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        text-transform: uppercase;
+        margin-left: 15px;
+      }
+      .btn-retour:hover {
+        background: var(--primary-green);
+        color: white;
+        border-color: var(--primary-green);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 15px;
+        }
+
+        .cours-header h1 {
+          font-size: 22px;
+        }
+
+        .question-text {
+          font-size: 18px;
+        }
+
+        .buttons-container {
+          flex-direction: column;
+        }
+
+        .btn-next {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header du cours -->
+      <div class="cours-header">
+        <span class="niveau-badge">Intermédiaire</span>
+        <h1>Cuisine Créative : Associations Audacieuses</h1>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        <div class="progress-text" id="progressText">Question 0/9</div>
+      </div>
+
+      <!-- Questions -->
+      <div id="questionsContainer"></div>
+
+      <!-- Score final -->
+      <div class="final-score" id="finalScore">
+        <h2>🎉 Cours Terminé !</h2>
+        <div class="score-circle">
+          <span class="score-number" id="finalScoreNumber">0/9</span>
+        </div>
+        <p class="score-message" id="scoreMessage"></p>
+        <button class="btn-restart" onclick="restartQuiz()">Recommencer</button
+        ><a href="/formations/cuisine/cuisine.html">
+          <button class="btn-retour">Retour</button></a
+        >
+      </div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          type: "multiple",
+          question:
+            "Quels fromages peuvent être utilisés dans une raclette revisitée ? (plusieurs réponses)",
+          options: ["Raclette traditionnelle", "Morbier", "Reblochon", "Comté"],
+          correct: [0, 1, 2, 3],
+        },
+        {
+          type: "qcm",
+          question:
+            "Quel ingrédient peut apporter une touche sucrée-salée à un plat principal ?",
+          options: ["Miel", "Vinaigre blanc", "Citron", "Moutarde"],
+          correct: 0,
+        },
+        {
+          type: "ordre",
+          question: "Dans quel ordre préparer un millefeuille salé ?",
+          options: [
+            "Préparer la pâte feuilletée",
+            "Cuire les feuilles au four",
+            "Préparer la garniture",
+            "Monter en alternant pâte et garniture",
+          ],
+          correct: [0, 1, 2, 3],
+        },
+        {
+          type: "vrai-faux",
+          question:
+            "La cuisson au four est adaptée pour un gâteau de raclette (type parmentier) ?",
+          options: ["Vrai", "Faux"],
+          correct: 0,
+        },
+        {
+          type: "multiple",
+          question:
+            "Quelles épices rehaussent le goût du fromage fondu ? (plusieurs réponses)",
+          options: ["Poivre noir", "Paprika fumé", "Noix de muscade", "Cumin"],
+          correct: [0, 1, 2, 3],
+        },
+        {
+          type: "qcm",
+          question:
+            "Quelle température est idéale pour faire fondre du fromage sans le brûler ?",
+          options: ["100-120°C", "150-180°C", "200-220°C", "250°C+"],
+          correct: 1,
+        },
+        {
+          type: "vrai-faux",
+          question:
+            "Le chocolat noir peut s'associer avec des plats salés comme le gibier ?",
+          options: ["Vrai", "Faux"],
+          correct: 0,
+        },
+        {
+          type: "qcm",
+          question: "Quel fruit se marie bien avec du fromage de chèvre ?",
+          options: ["Banane", "Ananas", "Figue", "Kiwi"],
+          correct: 2,
+        },
+        {
+          type: "multiple",
+          question:
+            "Quels éléments apportent du croquant dans une présentation ? (plusieurs réponses)",
+          options: [
+            "Noix grillées",
+            "Chips de légumes",
+            "Graines torréfiées",
+            "Croûtons",
+          ],
+          correct: [0, 1, 2, 3],
+        },
+      ];
+
+      let currentQuestion = 0;
+      let score = 0;
+      let userAnswers = [];
+
+      function initQuiz() {
+        displayQuestion();
+        updateProgress();
+      }
+
+      function displayQuestion() {
+        const container = document.getElementById("questionsContainer");
+        container.innerHTML = "";
+
+        const q = questions[currentQuestion];
+        const card = document.createElement("div");
+        card.className = "question-card active";
+
+        let optionsHTML = "";
+
+        if (q.type === "ordre") {
+          optionsHTML = '<div class="drag-options" id="dragContainer">';
+          q.options.forEach((opt, idx) => {
+            optionsHTML += `
+                        <div class="drag-item" draggable="true" data-index="${idx}">
+                            <span class="drag-number">${idx + 1}</span>
+                            <span>${opt}</span>
+                        </div>
+                    `;
+          });
+          optionsHTML += "</div>";
+        } else {
+          optionsHTML = '<div class="options">';
+          q.options.forEach((opt, idx) => {
+            const isMultiple =
+              q.type === "multiple" ? 'data-multiple="true"' : "";
+            optionsHTML += `
+                        <div class="option" data-index="${idx}" ${isMultiple} onclick="selectOption(${idx})">
+                            ${opt}
+                        </div>
+                    `;
+          });
+          optionsHTML += "</div>";
+        }
+
+        card.innerHTML = `
+                <div class="question-number">Question ${currentQuestion + 1}/${
+          questions.length
+        }</div>
+                <div class="question-type">${getQuestionTypeLabel(q.type)}</div>
+                <div class="question-text">${q.question}</div>
+                ${optionsHTML}
+                <div class="feedback" id="feedback"></div>
+                <div class="buttons-container">
+                    <button class="btn btn-validate" onclick="validateAnswer()">Valider</button>
+                    <button class="btn btn-next" id="nextBtn" onclick="nextQuestion()">Suivant →</button>
+                </div>
+            `;
+
+        container.appendChild(card);
+
+        if (q.type === "ordre") {
+          initDragAndDrop();
+        }
+      }
+
+      function getQuestionTypeLabel(type) {
+        const labels = {
+          qcm: "QCM - Choix unique",
+          "vrai-faux": "Vrai ou Faux",
+          ordre: "Ordre chronologique",
+          multiple: "Sélection multiple",
+        };
+        return labels[type] || type;
+      }
+
+      function selectOption(index) {
+        const q = questions[currentQuestion];
+        const options = document.querySelectorAll(".option");
+
+        if (q.type === "multiple") {
+          options[index].classList.toggle("selected");
+        } else {
+          options.forEach((opt) => opt.classList.remove("selected"));
+          options[index].classList.add("selected");
+        }
+      }
+
+      function initDragAndDrop() {
+        const items = document.querySelectorAll(".drag-item");
+        const container = document.getElementById("dragContainer");
+
+        items.forEach((item) => {
+          item.addEventListener("dragstart", handleDragStart);
+          item.addEventListener("dragover", handleDragOver);
+          item.addEventListener("drop", handleDrop);
+          item.addEventListener("dragend", handleDragEnd);
+        });
+
+        let draggedItem = null;
+
+        function handleDragStart(e) {
+          draggedItem = this;
+          this.style.opacity = "0.5";
+        }
+
+        function handleDragOver(e) {
+          e.preventDefault();
+          return false;
+        }
+
+        function handleDrop(e) {
+          e.stopPropagation();
+          if (draggedItem !== this) {
+            const allItems = [...container.querySelectorAll(".drag-item")];
+            const draggedIndex = allItems.indexOf(draggedItem);
+            const targetIndex = allItems.indexOf(this);
+
+            if (draggedIndex < targetIndex) {
+              this.parentNode.insertBefore(draggedItem, this.nextSibling);
+            } else {
+              this.parentNode.insertBefore(draggedItem, this);
+            }
+
+            updateDragNumbers();
+          }
+          return false;
+        }
+
+        function handleDragEnd(e) {
+          this.style.opacity = "1";
+        }
+
+        function updateDragNumbers() {
+          const items = container.querySelectorAll(".drag-item");
+          items.forEach((item, idx) => {
+            item.querySelector(".drag-number").textContent = idx + 1;
+          });
+        }
+      }
+
+      function validateAnswer() {
+        const q = questions[currentQuestion];
+        let isCorrect = false;
+        let userAnswer = null;
+
+        if (q.type === "ordre") {
+          const items = document.querySelectorAll(".drag-item");
+          userAnswer = Array.from(items).map((item) =>
+            parseInt(item.dataset.index)
+          );
+          isCorrect = JSON.stringify(userAnswer) === JSON.stringify(q.correct);
+        } else if (q.type === "multiple") {
+          const selected = document.querySelectorAll(".option.selected");
+          userAnswer = Array.from(selected)
+            .map((opt) => parseInt(opt.dataset.index))
+            .sort();
+          isCorrect =
+            JSON.stringify(userAnswer) === JSON.stringify(q.correct.sort());
+        } else {
+          const selected = document.querySelector(".option.selected");
+          if (selected) {
+            userAnswer = parseInt(selected.dataset.index);
+            isCorrect = userAnswer === q.correct;
+          }
+        }
+
+        if (userAnswer === null && q.type !== "ordre") {
+          alert("Veuillez sélectionner une réponse !");
+          return;
+        }
+
+        userAnswers.push(userAnswer);
+        if (isCorrect) score++;
+
+        const feedback = document.getElementById("feedback");
+        feedback.className =
+          "feedback show " + (isCorrect ? "correct" : "incorrect");
+        feedback.textContent = isCorrect
+          ? "✓ Bonne réponse !"
+          : "✗ Mauvaise réponse";
+
+        if (q.type !== "ordre") {
+          const options = document.querySelectorAll(".option");
+          options.forEach((opt, idx) => {
+            opt.classList.add("disabled");
+            if (q.type === "multiple") {
+              if (q.correct.includes(idx)) {
+                opt.classList.add("correct");
+              }
+            } else {
+              if (idx === q.correct) {
+                opt.classList.add("correct");
+              }
+              if (idx === userAnswer && !isCorrect) {
+                opt.classList.add("incorrect");
+              }
+            }
+          });
+        }
+
+        document.querySelector(".btn-validate").style.display = "none";
+        document.getElementById("nextBtn").classList.add("show");
+      }
+
+      function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+          displayQuestion();
+          updateProgress();
+        } else {
+          showFinalScore();
+        }
+      }
+
+      function updateProgress() {
+        const progress = (currentQuestion / questions.length) * 100;
+        document.getElementById("progressBar").style.width = progress + "%";
+        document.getElementById(
+          "progressText"
+        ).textContent = `Question ${currentQuestion}/${questions.length}`;
+      }
+
+      function showFinalScore() {
+        document.getElementById("questionsContainer").style.display = "none";
+        document.querySelector(".cours-header").style.display = "none";
+
+        const finalScore = document.getElementById("finalScore");
+        const scoreNumber = document.getElementById("finalScoreNumber");
+        const scoreMessage = document.getElementById("scoreMessage");
+
+        scoreNumber.textContent = `${score}/${questions.length}`;
+
+        const percentage = (score / questions.length) * 100;
+        if (percentage === 100) {
+          scoreMessage.textContent = "Parfait ! Vous êtes un chef créatif !";
+        } else if (percentage >= 75) {
+          scoreMessage.textContent =
+            "Très bien ! Vos associations sont audacieuses !";
+        } else if (percentage >= 50) {
+          scoreMessage.textContent = "Bien joué ! Continuez à expérimenter !";
+        } else {
+          scoreMessage.textContent =
+            "Continuez à pratiquer, la créativité vient avec l'expérience !";
+        }
+
+        finalScore.classList.add("show");
+      }
+
+      function restartQuiz() {
+        currentQuestion = 0;
+        score = 0;
+        userAnswers = [];
+        document.getElementById("finalScore").classList.remove("show");
+        document.getElementById("questionsContainer").style.display = "block";
+        document.querySelector(".cours-header").style.display = "block";
+        initQuiz();
+      }
+
+      initQuiz();
+    </script>
+  </body>
+</html>
