@@ -2,34 +2,66 @@
 
 // ==================== GESTION DU THÈME ====================
 document.addEventListener("DOMContentLoaded", function () {
-  // Créer le bouton de thème s'il n'existe pas déjà
-  if (!document.getElementById("theme-toggle")) {
-    const themeToggle = document.createElement("button");
-    themeToggle.id = "theme-toggle";
-    themeToggle.setAttribute("aria-label", "Changer de thème");
-    document.body.appendChild(themeToggle);
+  // Appliquer le thème sauvegardé sur TOUTES les pages
+  const savedTheme = localStorage.getItem("theme") || "light";
+  document.documentElement.setAttribute("data-theme", savedTheme);
 
-    // Récupérer le thème sauvegardé ou utiliser 'light' par défaut
-    const savedTheme = localStorage.getItem("theme") || "light";
-    document.documentElement.setAttribute("data-theme", savedTheme);
-    updateThemeIcon(savedTheme);
+  // Si on est sur la page de profil, créer le bouton de thème
+  const settingsSection = document.getElementById("settings");
+  if (settingsSection) {
+    // Créer l'élément de thème dans les paramètres
+    const themeItem = document.createElement("li");
+    themeItem.id = "theme-setting";
+    themeItem.style.display = "flex";
+    themeItem.style.justifyContent = "space-between";
+    themeItem.style.alignItems = "center";
+
+    const themeLabel = document.createElement("span");
+    themeLabel.textContent = "Thème";
+
+    const themeToggle = document.createElement("button");
+    themeToggle.id = "theme-toggle-btn";
+    themeToggle.style.background = "var(--primary-green)";
+    themeToggle.style.color = "white";
+    themeToggle.style.border = "none";
+    themeToggle.style.borderRadius = "8px";
+    themeToggle.style.padding = "8px 16px";
+    themeToggle.style.fontWeight = "700";
+    themeToggle.style.cursor = "pointer";
+    themeToggle.style.transition = "all 0.2s ease";
+
+    updateThemeButtonText(themeToggle, savedTheme);
+
+    themeItem.appendChild(themeLabel);
+    themeItem.appendChild(themeToggle);
+
+    // Ajouter en premier dans la liste des paramètres
+    const settingsList = settingsSection.querySelector("ul");
+    settingsList.insertBefore(themeItem, settingsList.firstChild);
 
     // Gérer le clic sur le bouton
-    themeToggle.addEventListener("click", function () {
+    themeToggle.addEventListener("click", function (e) {
+      e.stopPropagation(); // Empêcher le comportement du li
       const currentTheme = document.documentElement.getAttribute("data-theme");
       const newTheme = currentTheme === "light" ? "dark" : "light";
 
       document.documentElement.setAttribute("data-theme", newTheme);
       localStorage.setItem("theme", newTheme);
-      updateThemeIcon(newTheme);
+      updateThemeButtonText(themeToggle, newTheme);
+    });
+
+    // Empêcher le hover du li d'affecter le bouton
+    themeItem.addEventListener("mouseenter", function () {
+      this.style.background = "var(--bg-secondary)";
+      this.style.color = "var(--text-primary)";
+      this.style.transform = "none";
     });
   }
 });
 
-function updateThemeIcon(theme) {
-  const themeToggle = document.getElementById("theme-toggle");
-  if (themeToggle) {
-    themeToggle.textContent = theme === "light" ? "🌙" : "☀️";
+function updateThemeButtonText(button, theme) {
+  if (button) {
+    button.textContent = theme === "light" ? "🌙 Sombre" : "☀️ Clair";
   }
 }
 
@@ -74,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       footer.style.height = "auto";
       progressSection.style.display = "none";
-      fleche.style.transform = "rotate(-180deg)";
+      fleche.style.transform = "rotate(90deg)";
     }
 
     // Gérer le clic sur la flèche
@@ -82,11 +114,11 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isExpanded) {
         footer.style.height = "auto";
         progressSection.style.display = "none";
-        fleche.style.transform = "rotate(-180deg)";
+        fleche.style.transform = "rotate(90deg)";
       } else {
         footer.style.height = "300px";
         progressSection.style.display = "grid";
-        fleche.style.transform = "rotate(0deg)";
+        fleche.style.transform = "rotate(-90deg)";
       }
 
       // Mettre à jour l'état
@@ -104,8 +136,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (logoutButton) {
     logoutButton.addEventListener("click", function () {
+      // Sauvegarder le thème avant de nettoyer
+      const currentTheme = localStorage.getItem("theme");
+
       // Nettoyer les données stockées
       localStorage.clear();
+
+      // Restaurer le thème
+      if (currentTheme) {
+        localStorage.setItem("theme", currentTheme);
+      }
 
       // Redirection vers la page de connexion
       window.location.href = "/index.html";
