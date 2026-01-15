@@ -11,6 +11,9 @@ function updateLogo(theme) {
   }
 }
 
+// ============== Chargement de dotenv dans le fichier principal ============== //
+import 'dotenv/config';
+
 // ==================== GESTION DU THÈME ====================
 document.addEventListener("DOMContentLoaded", function () {
   // Appliquer le thème sauvegardé sur TOUTES les pages
