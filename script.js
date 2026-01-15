@@ -1,10 +1,24 @@
-// script.js
+//logo
+function updateLogo(theme) {
+  const logo = document.getElementById("logo");
+  console.log("Updating logo for theme:", theme);
+  if (logo) {
+    if (theme === "light") {
+      logo.src = "/img/logonoir.png";
+    } else {
+      logo.src = "/img/logo.png";
+    }
+  }
+}
 
 // ==================== GESTION DU THÈME ====================
 document.addEventListener("DOMContentLoaded", function () {
   // Appliquer le thème sauvegardé sur TOUTES les pages
   const savedTheme = localStorage.getItem("theme") || "light";
   document.documentElement.setAttribute("data-theme", savedTheme);
+
+  // ✨ Mettre à jour le logo au chargement
+  updateLogo(savedTheme);
 
   // Si on est sur la page de profil, créer le bouton de thème
   const settingsSection = document.getElementById("settings");
@@ -41,13 +55,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Gérer le clic sur le bouton
     themeToggle.addEventListener("click", function (e) {
-      e.stopPropagation(); // Empêcher le comportement du li
+      e.stopPropagation();
       const currentTheme = document.documentElement.getAttribute("data-theme");
       const newTheme = currentTheme === "light" ? "dark" : "light";
+
+      console.log("Changement de thème:", currentTheme, "→", newTheme); // ✨ Debug
 
       document.documentElement.setAttribute("data-theme", newTheme);
       localStorage.setItem("theme", newTheme);
       updateThemeButtonText(themeToggle, newTheme);
+
+      // ✨ Mettre à jour le logo lors du changement de thème
+      updateLogo(newTheme);
     });
 
     // Empêcher le hover du li d'affecter le bouton

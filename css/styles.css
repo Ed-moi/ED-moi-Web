@@ -103,16 +103,16 @@ header {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-header div#logo {
+header div#logo-container {
   flex: 0 0 auto;
   transition: transform 0.2s ease;
 }
 
-header div#logo:hover {
+header div#logo-container:hover {
   transform: scale(1.05);
 }
 
-header div#logo img {
+header div#logo-container img {
   height: 50px;
   width: auto;
 }
