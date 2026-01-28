@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -8,56 +8,109 @@
     <link rel="stylesheet" href="/css/style_index.css" />
   </head>
   <body>
-    <div id="login-container">
+    <main id="login-container">
       <div id="logo-login">
-        <img id="logo" src="/img/logonoir.png" alt="ED Moi Logo" />
+        <img id="logo" src="/img/logonoir.png" alt="" />
         <h1>ED Moi</h1>
         <p>Apprenez, progressez, réussissez</p>
       </div>
 
       <!-- Tabs -->
-      <div class="form-tabs">
-        <button class="tab-button active" data-tab="connexion">
+      <div
+        class="form-tabs"
+        role="tablist"
+        aria-label="Formulaires de connexion et inscription"
+      >
+        <button
+          class="tab-button active"
+          role="tab"
+          aria-selected="true"
+          aria-controls="connexion"
+          id="tab-connexion"
+          data-tab="connexion"
+        >
           Connexion
         </button>
-        <button class="tab-button" data-tab="inscription">Inscription</button>
+        <button
+          class="tab-button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="inscription"
+          id="tab-inscription"
+          data-tab="inscription"
+        >
+          Inscription
+        </button>
       </div>
 
       <!-- Formulaire de connexion -->
-      <div class="form-content active" id="connexion">
-        <form id="login-form">
+      <div
+        class="form-content active"
+        id="connexion"
+        role="tabpanel"
+        aria-labelledby="tab-connexion"
+      >
+        <form id="login-form" novalidate>
           <div class="input-group">
             <label for="login-email">Email</label>
             <input
               type="email"
-              id="login-email"
-              placeholder="votre@email.com"
+              id="email-login"
+              name="email"
               required
+              aria-required="true"
+              aria-describedby="email-login-error"
+              autocomplete="email"
             />
+            <span
+              id="email-login-error"
+              class="error-message"
+              role="alert"
+              aria-live="polite"
+            ></span>
           </div>
 
           <div class="input-group">
-            <label for="login-password">Mot de passe</label>
+            <label for="password-login">Mot de passe</label>
             <input
               type="password"
-              id="login-password"
-              placeholder="••••••••"
+              id="password-login"
+              name="password"
               required
+              aria-required="true"
+              aria-describedby="password-login-error"
+              autocomplete="current-password"
             />
+            <span
+              id="password-login-error"
+              class="error-message"
+              role="alert"
+              aria-live="polite"
+            ></span>
           </div>
 
           <div class="forgot-password">
-            <a href="#">Mot de passe oublié ?</a>
+            <a href="/page/mot-de-passe-oublie.html">Mot de passe oublié ?</a>
           </div>
 
           <button type="submit" class="submit-button">Se connecter</button>
         </form>
 
-        <div class="divider">OU</div>
+        <div class="divider" role="separator" aria-label="ou">OU</div>
 
         <div class="social-buttons">
-          <button class="social-button" id="google-login">
-            <svg width="20" height="20" viewBox="0 0 24 24">
+          <button
+            class="social-button"
+            id="google-login"
+            aria-label="Se connecter avec Google"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            >
               <path
                 fill="#4285F4"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -90,16 +143,31 @@
       </div>
 
       <!-- Formulaire d'inscription -->
-      <div class="form-content" id="inscription">
+      <div
+        class="form-content"
+        id="inscription"
+        role="tabpanel"
+        aria-labelledby="tab-inscription"
+        hidden
+      >
         <form id="register-form">
           <div class="input-group">
             <label for="register-name">Nom complet</label>
             <input
               type="text"
               id="register-name"
-              placeholder="Jean Dupont"
+              name="name"
               required
+              aria-required="true"
+              aria-describedby="register-name-error"
+              autocomplete="name"
             />
+            <span
+              id="register-name-error"
+              class="error-message"
+              role="alert"
+              aria-live="polite"
+            ></span>
           </div>
 
           <div class="input-group">
@@ -117,9 +185,21 @@
             <input
               type="password"
               id="register-password"
-              placeholder="••••••••"
+              name="password"
               required
+              aria-required="true"
+              aria-describedby="password-requirements register-password-error"
+              autocomplete="new-password"
             />
+            <p id="password-requirements" class="password-requirements">
+              Minimum 8 caractères avec majuscules, minuscules et chiffres
+            </p>
+            <span
+              id="register-password-error"
+              class="error-message"
+              role="alert"
+              aria-live="polite"
+            ></span>
             <p class="password-requirements">
               Minimum 8 caractères avec majuscules, minuscules et chiffres
             </p>
@@ -179,7 +259,7 @@
           <a href="#">Politique de confidentialité</a>
         </div>
       </div>
-    </div>
+    </main>
 
     <script src="/script.js"></script>
     <script>
