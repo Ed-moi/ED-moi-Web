@@ -17,7 +17,8 @@ body::before {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle at 20% 50%,
       rgba(88, 204, 2, 0.1) 0%,
       transparent 50%
@@ -230,6 +231,17 @@ body::before {
   box-shadow: 0 2px 0 var(--primary-green-dark);
 }
 
+#back-button {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  text-decoration: none;
+}
 .divider {
   display: flex;
   align-items: center;
