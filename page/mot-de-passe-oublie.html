@@ -3,22 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ED Moi - Connexion</title>
+    <!-- Titre plus descriptif pour les lecteurs d'écran et les onglets -->
+    <title>Connexion - ED Moi</title>
     <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="/css/style_index.css" />
+    <style>
+      :focus-visible {
+        outline: 3px solid #005fcc;
+        outline-offset: 3px;
+        border-radius: 2px;
+      }
+
+      .error-message:empty {
+        display: none;
+      }
+
+      .error-message {
+        color: #d32f2f;
+        font-size: 0.875rem;
+        margin-top: 4px;
+        display: block;
+      }
+    </style>
   </head>
   <body>
-    <main id="login-container">
+    <main id="login-container" aria-labelledby="page-title">
       <div id="logo-login">
-        <img id="logo" src="/img/logonoir.png" alt="" />
-        <h1>ED Moi</h1>
+        <img id="logo" src="/img/logonoir.png" alt="" aria-hidden="true" />
+        <h1 id="page-title">ED Moi</h1>
         <p>Apprenez, progressez, réussissez</p>
       </div>
-      <a href="/index.html" id="back-button">Retour</a>
+      <a href="/index.html" id="back-button" aria-label="Retour à l'accueil">
+        Retour
+      </a>
 
-      <form id="login-form" novalidate>
+      <form
+        id="login-form"
+        novalidate
+        aria-label="Formulaire de réinitialisation du mot de passe"
+      >
         <div class="input-group">
-          <label for="login-email">Email</label>
+          <label for="email-login">
+            Adresse e-mail
+            <span aria-hidden="true"> *</span>
+          </label>
           <input
             type="email"
             id="email-login"
@@ -27,6 +55,8 @@
             aria-required="true"
             aria-describedby="email-login-error"
             autocomplete="email"
+            inputmode="email"
+            spellcheck="false"
           />
           <span
             id="email-login-error"
@@ -35,6 +65,9 @@
             aria-live="polite"
           ></span>
         </div>
+        <p id="required-notice">
+          <span aria-hidden="true">*</span> Champ obligatoire
+        </p>
 
         <button type="submit" class="submit-button">
           Réinitialiser le mot de passe
