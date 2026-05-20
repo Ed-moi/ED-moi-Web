@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -180,7 +180,67 @@
         </div>
       </div>
     </div>
+    <!-- POPUP ED'MOI -->
+    <div id="wp-popup" class="wp-overlay">
+      <div class="wp-modal">
+        <h2>École Ed’moi</h2>
 
+        <p>
+          Plateforme e-learning développée sur 2 ans dans le cadre d’un projet
+          de fin d’études. Gestion des utilisateurs, contenus interactifs et
+          tableau de bord administrateur.
+        </p>
+
+        <div class="wp-tags">
+          <span>React</span>
+          <span>Node.js</span>
+          <span>MongoDB</span>
+        </div>
+
+        <div class="wp-actions">
+          <a href="/dashboard.html">Voir le projet →</a>
+          <a href="https://github.com" target="_blank">GitHub</a>
+        </div>
+
+        <label class="wp-checkbox">
+          <input type="checkbox" id="wp-remember" />
+          Ne plus afficher
+        </label>
+
+        <button id="wp-btn-ok">Fermer</button>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const POPUP_ID = "popup_edmoi_v1";
+
+        const overlay = document.getElementById("wp-popup");
+        const checkbox = document.getElementById("wp-remember");
+        const btn = document.getElementById("wp-btn-ok");
+
+        // si déjà vu → cache popup
+        if (localStorage.getItem(POPUP_ID) === "seen") {
+          overlay.classList.add("wp-hidden");
+        }
+
+        // bouton fermer
+        btn.addEventListener("click", () => {
+          if (checkbox.checked) {
+            localStorage.setItem(POPUP_ID, "seen");
+          }
+
+          overlay.classList.add("wp-hidden");
+        });
+
+        // clic dehors
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) {
+            overlay.classList.add("wp-hidden");
+          }
+        });
+      })();
+    </script>
     <script src="/script.js"></script>
     <script>
       // Gestion des onglets
